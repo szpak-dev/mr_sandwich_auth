@@ -1,0 +1,99 @@
+openapi: "3.0.2"
+
+
+info:
+  title: Authentication API for Mr. Sandwich
+  version: "1.0.0"
+
+
+servers:
+  - url: https://mr_sandwich.localhost/auth
+
+
+tags:
+  - name: Auth
+    description: Managing User's Session
+  - name: User
+    description: Representation of the User
+
+
+paths:
+  /login:
+    summary: Create new Session
+    post:
+      tags:
+        - Auth
+      requestBody:
+        description: Credentials required to create a new Session
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '201':
+          description: Session was created and placed into a cookie
+        '401':
+          description: Credentials are invalid
+
+  /logout:
+    summary: Destroy existing Session
+    delete:
+      tags:
+        - Auth
+      responses:
+        '204':
+          description: Session was deleted
+        '401':
+          description: Session did not exist
+
+  /users:
+    summary: Get currently logged-in User
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: Model of currently logged-in User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: No active Session exists
+
+
+components:
+  schemas:
+    Credentials:
+      type: object
+      properties:
+        username:
+          type: string
+          example: usern4me
+        password:
+          type: string
+          example: p4ssw0rd
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '134234234'
+        username:
+          type: string
+          example: usern4me
+        role:
+          $ref: '#/components/schemas/Role'
+
+    Role:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ROLE_CHEF
+          enum:
+            - ROLE_CHEF
+            - ROLE_CUSTOMER
+            - ROLE_DELIVERER
+            - ROLE_SUPER_ADMIN
