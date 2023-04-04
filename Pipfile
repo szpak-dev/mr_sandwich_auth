@@ -35,13 +35,13 @@ uvicorn = "==0.18.3"
 uvloop = "==0.17.0"
 watchfiles = "==0.18.0"
 websockets = "==10.4"
-psycopg2 = "*"
 alembic = "*"
 pyjwt = "*"
 httpx = "*"
 asyncpg = "*"
 databases = "*"
 greenlet = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
